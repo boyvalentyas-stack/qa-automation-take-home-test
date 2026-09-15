@@ -1,0 +1,10 @@
+{
+  "keywordFileContentHash": "CE8DDA08BECFBF4515E4C600E53F51E0",
+  "keywordClasses": [
+    {
+      "name": "stepDefinitions.LoginAddToCartCheckoutSteps",
+      "keywordMethods": []
+    }
+  ],
+  "javadocParsed": false
+}
