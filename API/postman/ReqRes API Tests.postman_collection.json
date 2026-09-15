@@ -1,0 +1,203 @@
+{
+  "info": {
+    "_postman_id": "aa7d2e67-ae16-48e5-a402-aa577ef4763d",
+    "name": "ReqRes API Tests",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "58237481",
+    "_collection_link": "https://go.postman.co/collection/58237481-aa7d2e67-ae16-48e5-a402-aa577ef4763d?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "create user",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 201 Created\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\n\r\npm.test(\"Response has correct structure\", function () {\r\n    const json = pm.response.json();\r\n    pm.expect(json).to.have.property('id');\r\n    pm.expect(json).to.have.property('name');\r\n    pm.expect(json).to.have.property('job');\r\n    pm.expect(json).to.have.property('createdAt');\r\n});\r\n\r\npm.test(\"Response name and job match request\", function () {\r\n    const requestBody = JSON.parse(pm.request.body.raw);\r\n    const json = pm.response.json();\r\n    pm.expect(json.name).to.eql(requestBody.name);\r\n    pm.expect(json.job).to.eql(requestBody.job);\r\n});\r\n\r\npm.environment.set(\"user_id\", pm.response.json().id);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "x-api-key",
+            "value": "{{api_key}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{ \"name\": \"Boy Valentyas\", \"job\": \"QA Engineer\" }",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/users",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "list users",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Response has correct pagination structure\", function () {\r\n    const json = pm.response.json();\r\n    pm.expect(json).to.have.property('page');\r\n    pm.expect(json).to.have.property('per_page');\r\n    pm.expect(json).to.have.property('total');\r\n    pm.expect(json).to.have.property('total_pages');\r\n    pm.expect(json).to.have.property('data');\r\n    pm.expect(json.data).to.be.an('array');\r\n});\r\n\r\npm.test(\"Every user in data array has required fields\", function () {\r\n    const json = pm.response.json();\r\n\r\n    json.data.forEach(function (user, index) {\r\n        pm.expect(user).to.have.property('id');\r\n        pm.expect(user).to.have.property('name');\r\n        pm.expect(user).to.have.property('year');\r\n        pm.expect(user).to.have.property('color');\r\n\r\n        if (user.hasOwnProperty('avatar')) {\r\n            pm.expect(user.avatar).to.be.a('string');\r\n        } else {\r\n            console.log(`User index ${index} (id: ${user.id}) tidak punya field avatar`);\r\n        }\r\n    });\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "x-api-key",
+            "value": "{{api_key}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/users?page=2",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "users"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "2"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "update user",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200 OK\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Response has correct structure\", function () {\r\n    const json = pm.response.json();\r\n    pm.expect(json).to.have.property('name');\r\n    pm.expect(json).to.have.property('job');\r\n    pm.expect(json).to.have.property('updatedAt');\r\n});\r\n\r\npm.test(\"Response name and job match request\", function () {\r\n    const requestBody = JSON.parse(pm.request.body.raw);\r\n    const json = pm.response.json();\r\n    pm.expect(json.name).to.eql(requestBody.name);\r\n    pm.expect(json.job).to.eql(requestBody.job);\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "x-api-key",
+            "value": "{{api_key}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{ \"name\": \"Boy Valentyas\", \"job\": \"Senior QA Engineer\" }",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/users/{{user_id}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "users",
+            "{{user_id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "delete user",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 204\", function () { \r\n    pm.response.to.have.status(204); }); \r\n\r\npm.test(\"Response body kosong\", function () { \r\n    pm.expect(pm.response.text()).to.eql(''); });"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "x-api-key",
+            "value": "{{api_key}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/users/{{user_id}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "users",
+            "{{user_id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "user not found",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 404\", function () { \r\n    pm.response.to.have.status(404); }); \r\n\r\npm.test(\"Response body object kosong\", function () { \r\n    const jsonData = pm.response.json(); \r\n    pm.expect(jsonData).to.eql({}); });"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "x-api-key",
+            "value": "{{api_key}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/users/23",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "users",
+            "23"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
