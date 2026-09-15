@@ -11,10 +11,10 @@ Karena kandidat tidak diberi akses ke staging internal, seluruh task dikerjakan 
 ## 📁 Struktur Repository
 
 ```
-├── katalon/          # Bagian B - Web Automation (Katalon Studio project)
-├── postman/          # Bagian C - API Testing (Collection + Environment)
-├── jmeter/           # Bagian D - Performance Testing (Test Plan + report)
-├── docs/             # Dokumen ringkasan, bug report, dan Gherkin feature file
+├── katalon/              # Bagian B - Web Automation (Katalon Studio project)
+├── API/postman/          # Bagian C - API Testing (Collection + Environment)
+├── Performance/JMeter/   # Bagian D - Performance Testing (Test Plan + report)
+├── Docs/JIRA/            # Dokumen ringkasan, bug report, dan Gherkin feature file
 └── README.md
 ```
 
@@ -93,6 +93,10 @@ Berikut ambiguitas yang ditemukan selama pengerjaan Bagian A & B:
 
 4. **`performance_glitch_user`** sengaja dimasukkan ke Examples table untuk mensimulasikan delay/lag pada aplikasi.
    → *Apakah smart wait dengan timeout 10 detik sudah dianggap cukup mengakomodasi delay dari user ini, atau perlu timeout khusus yang lebih panjang untuk skenario ini?*
+
+---
+
+## ✅ Bagian C — API Test (Postman)
 
 ---
 
