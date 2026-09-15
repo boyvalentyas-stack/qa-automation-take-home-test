@@ -1,4 +1,4 @@
-# QA Automation Challenge — Sistem E-Recruitment (Steradian Data Optima)
+# QA Automation Challenge
 
 Repository ini berisi hasil pengerjaan **Take-Home Test QA Engineer (Automation)**.
 Karena kandidat tidak diberi akses ke staging internal, seluruh task dikerjakan terhadap aplikasi demo publik:
